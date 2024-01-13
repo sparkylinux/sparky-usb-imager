@@ -1,0 +1,128 @@
+#!/bin/bash
+
+# Format USB Key Tool 
+# Copyright 2015-2023 Paweł "pavroo" Pijanowski <pavroo@onet.eu> 2015/10/20
+# Under the GNU GPL v2
+# Last update 2023/10/24 by pavroo
+#
+# It is based on the Copy to USB Tool
+# Copyright 2009,2011 Tony Brijeski under the GPL V2
+
+# get default's locale file
+DEFLOCDIR="/usr/share/sparky/sparky-usb-formatter"
+if [ "`cat /etc/default/locale | grep LANG= | grep de`" != "" ]; then
+. $DEFLOCDIR/de
+elif [ "`cat /etc/default/locale | grep LANG= | grep el`" != "" ]; then
+. $DEFLOCDIR/el
+elif [ "`cat /etc/default/locale | grep LANG= | grep es`" != "" ]; then
+	if [ "`cat /etc/default/locale | grep LANG= | grep es_AR`" != "" ]; then
+. $DEFLOCDIR/es_AR
+	else
+. $DEFLOCDIR/es_ES
+	fi
+elif [ "`cat /etc/default/locale | grep LANG= | grep fr`" != "" ]; then
+. $DEFLOCDIR/fr
+elif [ "`cat /etc/default/locale | grep LANG= | grep hu`" != "" ]; then
+. $DEFLOCDIR/hu
+elif [ "`cat /etc/default/locale | grep LANG= | grep id_ID`" != "" ]; then
+. $DEFLOCDIR/id_ID
+elif [ "`cat /etc/default/locale | grep LANG= | grep it`" != "" ]; then
+. $DEFLOCDIR/it
+elif [ "`cat /etc/default/locale | grep LANG= | grep ja_JP`" != "" ]; then
+. $DEFLOCDIR/ja
+elif [ "`cat /etc/default/locale | grep LANG= | grep pl`" != "" ]; then
+. $DEFLOCDIR/pl
+elif [ "`cat /etc/default/locale | grep LANG= | grep pt_BR`" != "" ]; then
+. $DEFLOCDIR/pt_BR
+elif [ "`cat /etc/default/locale | grep LANG= | grep pt_PT`" != "" ]; then
+. $DEFLOCDIR/pt
+elif [ "`cat /etc/default/locale | grep LANG= | grep ru`" != "" ]; then
+. $DEFLOCDIR/ru
+elif [ "`cat /etc/default/locale | grep LANG= | grep sv_SE`" != "" ]; then
+. $DEFLOCDIR/se
+elif [ "`cat /etc/default/locale | grep LANG= | grep uk`" != "" ]; then
+. $DEFLOCDIR/uk
+else
+. $DEFLOCDIR/en
+fi
+
+DIALOG="`which yad` --center --width 400"
+TITLE="--always-print-result --dialog-sep --window-icon=usb-creator --image=usb-creator --title="
+TITLETEXT="$LOCAL1"
+TEXT="--text="
+OKBUTTON="--button=Ok:0 "
+DIALOGZEN="zenity --progress --pulsate --auto-close --auto-kill --no-cancel --window-icon=/usr/share/icons/sparky/usb-format/sparky48.png --width=450 --height=120"
+TITLEZEN="--title="
+testroot="`whoami`"
+
+if [ "$testroot" != "root" ]; then
+	echo "Must be root, exiting now..."
+	exit 1
+fi
+
+formatmenu () {
+if [ "$1" = "" ]; then
+	$DIALOG $TITLE"$TITLETEXT" $TEXT"\n$LOCAL2"
+	mainmenu
+fi
+
+$DIALOG $TITLE"$TITLETEXT" $TEXT"\n$LOCAL3"
+
+if [ $? != 0 ]; then
+	mainmenu
+fi
+
+#umount `mount | grep $1 | awk '{print $1}'`
+#UMDEVS3=`mount | grep $1 | awk '{print $1}' | tail -n1 | grep 3`
+UMDEVS3=`mount | grep $1 | grep 3 | awk '{print $1}'`
+if [ "$UMDEVS3" != "" ]; then
+	umount "$UMDEVS3"
+	sleep 1
+fi
+#UMDEVS1=`mount | grep $1 | awk '{print $1}'`
+UMDEVS1=`mount | grep $1 | grep 1 | awk '{print $1}'`
+umount "$UMDEVS1"
+
+# format now
+#$DIALOG $TITLE"$TITLETEXT" $TEXT"$LOCAL4" --no-buttons --progress --pulsate --auto-close --auto-kill --progress-text="$LOCAL11" &
+#mkfs.vfat -F 32 -I -n $2 -v /dev/$1
+#killall -KILL yad
+(mkfs.vfat -F 32 -I -n $2 -v /dev/$1) | $DIALOGZEN $TITLEZEN"$TITLETEXT" $TEXT"\n$LOCAL4\n"
+sleep 1
+
+$DIALOG $TITLE"$TITLETEXT" $TEXT"\n$LOCAL5" $OKBUTTON
+
+exit 0
+}
+
+mainmenu () {
+DEVS=""
+DEVS=`ls -l /dev/disk/by-path/*usb* | grep -v "usbv" | awk -F "/" ' ! /part/ {print $NF}'`
+if [ "$DEVS" != "" ]; then
+	for i in $DEVS; do
+	USBDRIVESIZE=`grep -m 1 "$i" /proc/partitions | awk '{print $3}'`
+	USBDRIVES="$USBDRIVES!$i-$USBDRIVESIZE"
+	done
+else
+	$DIALOG $TITLE"$TITLETEXT" $OKBUTTON $TEXT"\n$LOCAL6"
+	exit 0
+fi
+
+CHOICES=`$DIALOG $TITLE"$TITLETEXT" --form --field="$LOCAL7:CB" --field="$LOCAL10" $USBDRIVES --button="$LOCAL8:2" --button="$LOCAL9:1"`
+ret="$?"
+
+if [ "$ret" = "1" ]; then
+	USBDRIVE=`echo $CHOICES | cut -d "|" -f 1 | cut -d "-" -f 1`
+	NAMEDISK=`echo $CHOICES | cut -d "|" -f 2 | cut -c1-11`
+	if [ "$NAMEDISK" = "" ]; then
+		NAMEDRIVE="USBDISK"
+	else
+		NAMEDRIVE="$NAMEDISK"
+	fi	
+	formatmenu $USBDRIVE $NAMEDRIVE
+else
+	exit 0
+fi
+}
+
+mainmenu

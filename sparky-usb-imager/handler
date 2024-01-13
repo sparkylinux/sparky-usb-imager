@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Last update by pavroo January 12, 2024
+
+URI="$1"
+
+#cd /usr/lib/sparky-welcome
+
+# ignore empty URI
+if [[ "$URI" == "" ]]; then
+	echo "no command... exiting..."
+	exit 1
+fi
+
+# html URI runs external www-browser
+if [[ "$URI" == http* ]]; then
+	echo "running external web page..."
+	killall -9 yad
+	x-www-browser "$URI"
+	./welcome
+	exit 1
+fi
+
+# local file URI opens inside YAD
+if [[ "$URI" == file* ]]; then
+	echo "running a web page from local disk..."
+	exit 0
+fi
+
+# bsu://something runs our command inside YAD
+if [[ "$URI" == bsu* ]]; then
+	# remove 'bsu:'
+	CMD=`echo "$URI" | sed -e 's/bsu:\/\///'`
+	echo "running a command for $CMD..."
+	CHECK01=`echo "$CMD" | grep erase01`
+	CHECK02=`echo "$CMD" | grep flash02`
+	CHECK03=`echo "$CMD" | grep persis03`
+
+	if [ "$CHECK01" != "" ]; then
+		killall -9 yad
+		remsu /usr/bin/sparky-usb-formatter
+		#./usb-imager
+		exit 0
+	
+	elif [ "$CHECK02" != "" ]; then
+		killall -9 yad
+		remsu /usr/bin/sparky-live-usb-creator
+		#./usb-imager
+		exit 0
+	
+	elif [ "$CHECK03" != "" ]; then
+		killall -9 yad
+		remsu /usr/bin/sparky-live-usb-creator-persistence
+		#./usb-imager
+		exit 0
+
+	else
+		echo "unknown command... exiting"
+		exit 0
+	fi
+
+fi
+
+exit 0

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Last update Jan 12, 2024 by pavroo
+
+cd /usr/lib/sparky-usb-imager
+./usb-imager
+
+exit 0

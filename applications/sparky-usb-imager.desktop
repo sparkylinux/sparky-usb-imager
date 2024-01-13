@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=USB Imager
+GenericName=USB Imager
+Comment=Format and create live Linux USB
+Comment[pl]=Formatowanie i tworzenie dysku live Linux USB
+Exec=/usr/bin/sparky-usb-imager
+Icon=sparky-usb-imager
+Terminal=false
+MultipleArgs=false
+Type=Application
+Categories=Utility;
+
