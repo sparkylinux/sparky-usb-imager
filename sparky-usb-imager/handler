@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# Last update by pavroo January 12, 2024
+# Last update by pavroo February 9, 2024
 
 URI="$1"
-
-#cd /usr/lib/sparky-welcome
 
 # ignore empty URI
 if [[ "$URI" == "" ]]; then
@@ -13,13 +11,13 @@ if [[ "$URI" == "" ]]; then
 fi
 
 # html URI runs external www-browser
-if [[ "$URI" == http* ]]; then
-	echo "running external web page..."
-	killall -9 yad
-	x-www-browser "$URI"
-	./welcome
-	exit 1
-fi
+#if [[ "$URI" == http* ]]; then
+#	echo "running external web page..."
+#	killall -9 yad
+#	x-www-browser "$URI"
+#	./welcome
+#	exit 1
+#fi
 
 # local file URI opens inside YAD
 if [[ "$URI" == file* ]]; then
@@ -37,21 +35,18 @@ if [[ "$URI" == bsu* ]]; then
 	CHECK03=`echo "$CMD" | grep persis03`
 
 	if [ "$CHECK01" != "" ]; then
-		killall -9 yad
+		kill -USR1 $YAD_PID
 		remsu /usr/bin/sparky-usb-formatter
-		#./usb-imager
 		exit 0
 	
 	elif [ "$CHECK02" != "" ]; then
-		killall -9 yad
+		kill -USR1 $YAD_PID
 		remsu /usr/bin/sparky-live-usb-creator
-		#./usb-imager
 		exit 0
 	
 	elif [ "$CHECK03" != "" ]; then
-		killall -9 yad
+		kill -USR1 $YAD_PID
 		remsu /usr/bin/sparky-live-usb-creator-persistence
-		#./usb-imager
 		exit 0
 
 	else
