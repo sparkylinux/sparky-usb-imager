@@ -1,17 +1,17 @@
 # Archivo de localización en español para Sparky USB Formatter tool.
 # Copyright 2015 Fernando "seacat" Velo <seacat.linux@gmail.com> 2015/12/23
 # Bajo la licencia GNU GPL v2
-# Last update 2019/02/21 by pavroo
+# Last update 2024/04/15 by aleXimon
 LOCAL1="Formateador de discos USB"
-LOCAL2="Ud tiene que elegir la llave USB a usar. Hacer clic en OK para volver al menú principal."
-LOCAL3="Esto borrará por completo el contenido de su unidad USB. Una vez que esta operación haya comenzado, Ud no podrá deshacerla.\n\nHacer clic en OK para continuar."
-LOCAL4="Formateando la llave USB ahora. \n\nPor favor espere..."
-LOCAL5="Se completó el formateo de la llave USB. \n\nHacer clic en OK para salir."
-LOCAL6="No se encontraron llaves USB.\n\nPor favor, inserte una llave USB e inténtelo nuevamente."
-LOCAL7="Elegir una llave USB"
+LOCAL2="Debe seleccionar la memoria USB a usar. Pulsar OK para volver al menú principal."
+LOCAL3="Esto borrará por completo el contenido de su unidad USB. Una vez que esta operación haya comenzado, Ud no podrá deshacerla.\n\nPresionar OK para continuar."
+LOCAL4="Formateando el disco USB ahora. \n\nPor favor espere..."
+LOCAL5="Se completó el formateo de la memoria USB. \n\nPresionar OK para salir."
+LOCAL6="No se detectaron memorias USB.\n\nPor favor, inserte una memoria USB e inténtelo nuevamente."
+LOCAL7="Elegir una memoria USB"
 LOCAL8="Salir"
-LOCAL9="Formatear llave USB"
-LOCAL10="Etiqueta de disco USB"
+LOCAL9="Formatear el disco USB"
+LOCAL10="Etiqueta del disco USB"
 LOCAL11="Por favor, espere hasta que termine..."
 ### .desktop file to be translated too
 # Name[es_AR]=Formateador USB
