@@ -98,7 +98,7 @@ exit 0
 mainmenu () {
 DEVS=""
 #DEVS=`ls -l /dev/disk/by-id/*usb* | grep -v "usbv" | grep -v "by-label" | grep -v "by-uuid" | awk -F "/" ' ! /part/ {print $NF}'`
-DEVS=`ls -l /dev/disk/by-path/*usb* | grep -v "usbv" | grep -v "part" | awk -F "/" '{print $NF}'`
+DEVS=`ls -l /dev/disk/by-id/*usb* | grep -v "usbv" | grep -v "part" | awk -F "/" '{print $NF}'`
 if [ "$DEVS" != "" ]; then
 	for i in $DEVS; do
 	USBDRIVESIZE=`grep -m 1 "$i" /proc/partitions | awk '{print $3}'`
