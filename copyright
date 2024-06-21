@@ -8,6 +8,14 @@ Files: *
 Files: en.js. pl.js, handler
     Oryginally created by Piotr "MoroS" Mrożek
     License: GPL-3+
+    
+    Files: hu.js
+    Author: nemomen
+    License: GPL-3+
+    
+    Files: uk.js
+    Author: S1LVE12R47 matrix : r47s:ilyamikcoder.com
+    License: GPL-3+
 
 Files: calamares.svg, unetbootin.svg, sparky-usb-imager.png
 Vince Liuice <vinceliuice@hotmail.com>
