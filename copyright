@@ -2,12 +2,16 @@ Upstream Author(s):
     Paweł "pavroo" Pijanowski <pavroo@onet.eu>
 
 Files: *    
-    Copyright (C) 2024 Paweł Pijanowski
+    Copyright (C) 2025 Paweł Pijanowski
     License: GPL-3+
 
 Files: en.js. pl.js, handler
     Oryginally created by Piotr "MoroS" Mrożek
     License: GPL-3+
+    
+    File: de
+    Copyright 2025 Roy
+    License: GNU GPL-3
     
     File: fi, fi.js
     Copyright (C) 2024 Jouko Tiilikainen
